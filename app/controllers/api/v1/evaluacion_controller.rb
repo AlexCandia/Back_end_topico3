@@ -3,21 +3,21 @@ module Api
         class EvaluacionController < ApplicationController
             def index
 				evaluacion = Evaluacion.all
-				render json: {status: 'SUCCESS', message: 'todos las evaluaciones', data:evaluacion.to_json(:include => [:alumno, :curso])},status: :ok
+				render json: {result: true, message: 'todos las evaluaciones', data:evaluacion.to_json(:include => [:alumno, :curso])},status: :ok
 			end
 			
 			def notacurso
-				curso = Evaluacion.where('curso_id=?',params[:id])
-				render json: {status: 'SUCCESS', message: 'detalle evaluacion curso', data:curso.to_json(:include => [:alumno, :curso])},status: :ok
+				curso = Evaluacion.where('curso_id=? and alumno_id=?',params[:id], params[:idalum])
+				render json: {result: true, message: 'detalle evaluacion curso', data:curso.as_json},status: :ok
                 rescue ActiveRecord::RecordNotFound => err
-                render json: { message: err.message}, status: :not_found
+                render json: {result: false, message: err.message}, status: :not_found
 			end
             
             def show
 				alumno = Evaluacion.where('alumno_id=?',params[:id])
-				render json: {status: 'SUCCESS', message: 'detalle evaluacion alumno', data:alumno.to_json(:include => [:alumno, :curso])},status: :ok
+				render json: {result: true, message: 'detalle evaluacion alumno', data:alumno.as_json(:include => [:alumno, :curso])},status: :ok
                 rescue ActiveRecord::RecordNotFound => err
-                render json: { message: err.message}, status: :not_found
+                render json: {result: false, message: err.message}, status: :not_found
 			end
         end
     end

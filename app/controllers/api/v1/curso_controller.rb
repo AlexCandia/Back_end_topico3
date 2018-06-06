@@ -10,6 +10,13 @@ module Api
                 render json: {result: true, message: 'todos los cursos', data:@Curso},status: :ok
             end
             
+            def ListaAlumnos
+				alumnocurso = Curso.find(params[:id])
+				render json: {result: true, message: 'Listados de Alumnos', data:alumnocurso.as_json(:include => [:cxa])},status: :ok
+                rescue ActiveRecord::RecordNotFound => err
+                render json: {result: false, message: err.message}, status: :not_found
+			end
+            
 			def show
 				curso = Curso.find(params[:id])
 				render json: {result: true, message: 'detalle curso', data:curso},status: :ok
