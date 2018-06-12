@@ -1,6 +1,6 @@
 # README
  pasos para iniciar el proyecto
  
-bundle install
-rake db:migrate
-rails s
+1.- bundle install
+2.- rake db:migrate
+3.- rails s
